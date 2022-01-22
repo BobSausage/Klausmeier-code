@@ -14,15 +14,15 @@ mp.dps = 1000
 
 
 #redefine functions same as before but with mpfs
-colours = ['black','red','yellow','lime','blue']
+colours = ['red','red','yellow','lime','blue']
 #colours : NA  , 1 stbl, C stbl, all stbl, D stable
 
 amin = 0#1.25#1.2
 amax = 2#1.28#1.8
 bmin = 0#0.62#0.6
 bmax = 1#0.64#0.9
-pts  = 2#00#00
-save = 0#1
+pts  = 200#00
+save = 1#1
 
 alist = np.linspace(amin,amax,pts)
 blist = np.linspace(bmin,bmax,pts)
@@ -56,8 +56,9 @@ for a in alist:
                 else:
                     q = 4
 ##            print(A,B,C,D,evaltc,evaldc,evaltd,evaldd)
-        plt.plot(A,B,color = colours[q],marker='s',markersize = 13/17)
+        plt.plot(A,B,color = colours[q],marker='s',markersize = 1)
 
+plt.margins(0)
 plt.xlabel('A')
 plt.ylabel('B')
 plt.title('Showing the values of A and B that have either 1,2 or 3 stable points')
