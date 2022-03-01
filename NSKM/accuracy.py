@@ -59,9 +59,11 @@ for a in alist:
         plt.plot(A,B,color = colours[q],marker='s',markersize = 1)
 
 plt.margins(0)
-plt.xlabel('A')
-plt.ylabel('B')
-plt.title('Showing the values of A and B that have either 1,2 or 3 stable points')
+plt.xlabel('A', fontsize = 15)
+plt.ylabel('B', fontsize = 15)
+plt.xticks(fontsize = 15)
+plt.yticks(fontsize = 15)
+#plt.title('Showing the values of A and B that have either 1,2 or 3 stable points')
 if save == 1 :
     res = 720
     #save name encodes data on amin, amax, bmin, bmax and no of points in each dimension
