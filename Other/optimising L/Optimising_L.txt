@@ -1,0 +1,110 @@
+for a in range(1,11):
+	ti = time.time()
+	new_L(a*10)
+	ta = time.time() - ti
+	biggie3(a*10)
+	tb = time.time() - ta - ti
+	print(a*10, "  newL : ", ta , "  bigLL ",tb)
+
+
+10   newL :  0.07523322105407715   bigLL  0.058599233627319336
+20   newL :  0.03420281410217285   bigLL  0.14600920677185059
+30   newL :  0.0855257511138916   bigLL  0.25700879096984863
+40   newL :  0.2694089412689209   bigLL  0.334259033203125    	###
+50   newL :  0.5282199382781982   bigLL  0.40858006477355957 	###
+60   newL :  0.8830001354217529   bigLL  0.5542802810668945
+70   newL :  1.7862226963043213   bigLL  1.0099198818206787
+80   newL :  3.0106730461120605   bigLL  1.1120789051055908
+90   newL :  5.734900712966919   bigLL  1.7267038822174072
+100   newL :  8.01802110671997   bigLL  2.078476905822754
+
+for a in range(40,61):
+	ti = time.time()
+	new_L(a)
+	ta = time.time() - ti
+	biggie3(a)
+	tb = time.time() - ta - ti
+	print(a, "  newL : ", ta , "  bigLL ",tb)
+
+40   newL :  0.20201587677001953   bigLL  0.3285491466522217
+41   newL :  0.27054834365844727   bigLL  0.27829909324645996
+42   newL :  0.17801141738891602   bigLL  0.2748134136199951
+43   newL :  0.2733449935913086    bigLL  0.36405324935913086
+44   newL :  0.32001185417175293   bigLL  0.38000988960266113
+45   newL :  0.27000951766967773   bigLL  0.4946620464324951
+46   newL :  0.40107083320617676   bigLL  0.5229647159576416
+47   newL :  0.3897380828857422   bigLL  0.447249174118042
+48   newL :  0.430248498916626   bigLL  0.5317413806915283
+49   newL :  0.4841320514678955   bigLL  0.5401294231414795
+50   newL :  0.47759246826171875   bigLL  0.4292266368865967	###
+51   newL :  0.4698753356933594   bigLL  0.5199177265167236
+52   newL :  0.49816203117370605   bigLL  0.5065429210662842
+53   newL :  0.5602295398712158   bigLL  0.4697909355163574	###
+54   newL :  0.5855221748352051   bigLL  0.4815037250518799	###
+55   newL :  0.6619696617126465   bigLL  0.6413378715515137	###
+56   newL :  0.541966438293457   bigLL  0.516629695892334	###
+57   newL :  0.6790609359741211   bigLL  0.6891975402832031
+58   newL :  0.8096480369567871   bigLL  0.6710572242736816	###
+59   newL :  0.8157761096954346   bigLL  0.7436943054199219	###
+60   newL :  0.9312999248504639   bigLL  0.8110997676849365	###
+
+set 55 to turning point
+
+for a in range(10):
+	ti = time.time()
+	abba = new_L(55)
+	ta = time.time() - ti
+	abba = biggie3(55)
+	tb = time.time() - ta - ti
+	if ta> tb:
+		print("newl")
+	else:
+		print("bigl")
+
+		
+bigl
+newl
+newl
+bigl
+newl
+bigl
+bigl
+newl
+bigl
+newl
+clearly this is valid ~50% of the time so makes it a fair point to split
+
+for a in range(1,11):
+	ti = time.time()
+	abba = new_L(10*a)
+	ta = time.time() - ti
+	abba = biggie3(10*a)
+	tb = time.time() - ta - ti
+	abba = final_L(10*a)
+	tc = time.time() - tb - ta - ti
+	if min((ta,tb,tc)) == ta:
+		print(a , "newl fastest")
+		if tc < tb:
+			print(a, "fin 2nd")
+	elif min((ta,tb,tc)) == tb:
+		print(a , "bigl fastest")
+		if tc < ta:
+			print(a ,"fin 2nd")
+	else:
+		print(a , "fin_L fastest")
+
+		
+1 newl fastest
+1 fin 2nd
+2 fin_L fastest
+3 fin_L fastest
+4 fin_L fastest
+5 fin_L fastest
+6 bigl fastest
+6 fin 2nd
+7 fin_L fastest
+8 fin_L fastest
+9 bigl fastest
+9 fin 2nd
+10 bigl fastest
+10 fin 2nd

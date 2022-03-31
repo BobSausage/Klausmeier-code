@@ -1,0 +1,11 @@
+Comparing the times taken by Big_fat_L vs new_L
+initial number is n
+3 OLD :  0.029      NEW :  0.027
+10 OLD :  0.025     NEW :  0.021
+50 OLD :  1.011     NEW :  0.393
+100 OLD :  44.684   NEW :  6.2
+comparing to Biggie2 and Biggie3
+20  b2  : 0.0695    	b3 : 0.0718
+50  b2  : 0.380		b3 : 0.311
+100 b2  : 16.584	b3 : 1.259
+200 b2  : DNF		b3 : 7.684

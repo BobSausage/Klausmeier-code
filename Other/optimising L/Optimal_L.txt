@@ -1,0 +1,15 @@
+>>> import time
+>>> for a in [3,10,20,50,100,200,500]:
+	ti = time.time()
+	b = optimal_L(a)
+	ta = time.time() - ti
+	print("n = ", a, "   time take " , ta)
+
+	
+n =  3    time take  0.0009815692901611328
+n =  10    time take  0.000997304916381836
+n =  20    time take  0.001001119613647461
+n =  50    time take  0.0019996166229248047
+n =  100    time take  0.005852937698364258
+n =  200    time take  0.014021158218383789
+n =  500    time take  0.08982110023498535
