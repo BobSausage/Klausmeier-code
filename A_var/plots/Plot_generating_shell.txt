@@ -1,0 +1,8 @@
+using  nskm_solve_ivp_varying_A
+
+>>> basic_fig_plot([0.47491,0.5],50,save=True,title = 'long_transience')
+>>> basic_fig_plot([0.5,0.5],50,save=True,title = 'died_off_before')
+>>> basic_fig_plot([0.45,0.5],50,save=True,title = 'dies_off')
+>>> basic_fig_plot([0.5,0.5],50,2,4,3.42,save=True,title = 'A2_died_off_before')
+>>> basic_fig_plot([0.5154165,0.5],50,2,4,3.42,save = True,title = 'A2_long_transience')
+>>> basic_fig_plot([0.55,0.5],50,2,4,3.42,save=True,title = 'A2_short_transience')

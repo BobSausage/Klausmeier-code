@@ -13,7 +13,7 @@ from statistics import mean
 
 class solve:
 
-    def __init__(self,n,t=11,tmin=0,tmax = 10,Amin=0.3,B=0.45,d = 0.25):
+    def __init__(self,n,t=11,tmin=0,tmax = 10,Amin=0.7,B=0.45,d = 0.25):
         '''n is number of points in each of x and y
 t is the number of time poitns,
 A&B are the parameneters defined in the eqn'''
@@ -29,8 +29,10 @@ A&B are the parameneters defined in the eqn'''
         self.d = d   # multiplier of plant dispersal = 1/x**2
         self.al = [] ##list to keep track of values of A at given times
         self.amin = Amin ##params for rainfall function
-        self.kk = 2   ##as above
-        self.pq = 2   ##as above
+        self.ka = 1   ##main k for rainfall fn, is k in A1 and k1 in A2
+        self.kb = 0.5 ##secondary k only used in A2
+        self.q = 1.3518   ##param in rainfall fn
+        self.r = 1    ##rainfall param
 
     #makes jacobian for certain solvers
     def getjac(self,t,z,e=0):
@@ -57,23 +59,46 @@ A&B are the parameneters defined in the eqn'''
         bottwo = sparse.hstack((gu,gwL))
         #join for final mat (vstack = vertical stack)
         finp   = sparse.vstack((toptwo,bottwo))
-        #make sure is csr as diag sometimes doesn't interact well
+        #make sure is csr as diag still contains info on some 0s on diag
         out = sparse.csr_matrix(finp)
         return out
 
 
-
-    def getA(self,t):
-        at = self.amin + self.kk*(self.pq*(np.tanh(np.sin(np.pi * 2 * t)) + 1))
-        self.al.append(at)
+    def get_A1(self,t):
+        Q,R,k,Am = self.q,self.r, self.ka,self.amin
+        at = Am+ (k*(1 + np.tanh((Q*np.sin(0.5*np.pi*t)) -R)))
+        #average over first period to give an approx a val
+        if 0<t<4:
+            self.al.append(at)
         return at
 
+    def m2_default(self):
+        '''quick way to set model 2 defaults'''
+        self.q,self.r = 4,3.42
+        self.ka,self.kb = 1,0.5
+        return
+
+    def get_A2(self,t):
+        Q,R,k1,k2,Am = self.q,self.r, self.ka,self.kb,self.amin
+        at = Am+ (k1*(1 + np.tanh((Q*np.sin(0.5*np.pi*t)) -R))) + (k2*(1 + np.tanh((Q*np.sin((0.5*np.pi*t)+(np.pi))) -R)))
+        #average over first period to give an approx a val
+        if 0<t<4:
+            self.al.append(at)
+        return at
+
+    
+        
     #define the model
-    def fn(self,t,z):
+    def fn(self,t,z,rainfall=1):
+        #doesn't like class functions as args so set here
+        if rainfall == 1:
+            rainfall = self.get_A1
+        else:
+            rainfall = self.get_A2
         n = self.n
-        #first n entries of z = u
+        #first n^2 entries of z = u
         u = np.array(z[:n**2])
-        #second n entries of z = w
+        #second n^2 entries of z = w
         w = np.array(z[n**2:])
 
 ##        print(u,w, self.matrixdiff(u))
@@ -81,7 +106,7 @@ A&B are the parameneters defined in the eqn'''
         du = w*(u**2) -  self.B*u + (self.L*u)*self.d
 
         #w equation
-        dw = self.getA(t)*np.ones(n**2) - w - w*(u**2)
+        dw = rainfall(t)*np.ones(n**2) - w - w*(u**2)
 
         #recombine
         dz = np.concatenate((du,dw))
@@ -89,18 +114,23 @@ A&B are the parameneters defined in the eqn'''
         return dz
 
     
-    #Solve ODEs~~~~~~~~~~~~~~~~~~~~~~~~~~~~CHANGED MULTIPLE THINGS
-    def solve2d(self, meth = 'LSODA'):
+    #Solve ODEs
+    def solve2d(self, rainfall=1, meth = 'LSODA'):
         init_time = time.time()
         self.al = []
+        #doesn't like class functions as args so set here
+##        if rainfall == 1:
+##            rainfall = self.get_A1
+##        else:
+##            rainfall = self.get_A2
         #solves ODE
         #######params (func, range of t (2-tuple), points t is evaluated at, method)
         ###########methods are :  nonstiff:{{'RK45', 'RK23' , ' DOP853'}}, stiff:{{'Radau','BDF'}}, gen{{LSODA}}
         ##doesn't like being given jac if not necessary
         if meth in ['BDF','Radau']:
-            sols = si(self.fn, self.tr,self.z0, t_eval = self.t, method = meth ,max_step =1e-3, jac = self.getjac)
+            sols = si(self.fn, self.tr,self.z0, t_eval = self.t, args = [rainfall], method = meth ,max_step =1e-3, jac = self.getjac)
         else:
-            sols = si(self.fn, self.tr,self.z0, t_eval = self.t, method = meth ,max_step =1e-3) 
+            sols = si(self.fn, self.tr,self.z0, t_eval = self.t, args = [rainfall], method = meth ,max_step =1e-3) 
         #get solutions
         self.oggle = sols.t
         self.zsols = sols.y
@@ -108,7 +138,7 @@ A&B are the parameneters defined in the eqn'''
         self.umax = max([max(self.zsols[:self.n**2][c]) for c in range(self.n**2)])
         self.wmax = max([max(self.zsols[self.n**2:][c]) for c in range(self.n**2)])
 
-        print('effective A=' + str(mean(self.al)))
+        print('effective A=' + str(mean(self.al))) #this is a v bad way of approximating a
         print('time taken = ' + str(time.time()-init_time))
         return
 

@@ -1,0 +1,16 @@
+#central circle forms and expands outwards for b = solve(50,tmax=200) (implied A=1.1776 B=0.45, d = 0.25)
+b.z0 = np.concatenate((np.zeros(1222),[1,2,3,0,3,2,1],np.zeros(43),[1,2,3,0,3,2,1],np.zeros(1221),np.ones(2500)*0.2))
+
+#central circular shell expands outwards
+require a > 0.89 to propagate (turning point between 0.88 and 0.89) b = solve(50,tmax=200) (implied A=1.1776 B=0.45, d = 0.25)
+b.z0 = np.concatenate((np.zeros(22*51 + 2),[a,a],np.zeros(47),[a,a,a,a],np.zeros(45),[a,a,0,0,a,a],np.zeros(44),[a,a,0,0,a,a],np.zeros(45),[a,a,a,a],np.zeros(47),[a,a],np.zeros(22*51+2),np.ones(2500)))
+
+##central bar (required to be 2 cells thick for prop) b = solve(50,tmax=200) (implied A=1.1776 B=0.45, d = 0.25)  the multiplier of the bar must be >1.3
+b.z0 = np.concatenate((np.zeros(24*50),2*np.ones(50),np.zeros(25*50),np.ones(2500)*0.2))
+
+##central bar (for only 1 cell) b = solve(50,tmax=200) (implied A=1.1776 B=0.45, d = 0.25)
+b = solve(50,tmax=200) (implied A=1.1776 B=0.45, d = 0.25)
+multiplier of bar is >2.65
+b.z0 = np.concatenate((np.zeros(24*50),3*np.ones(50),np.zeros(25*50),np.ones(2500)*0.2))
+
+##

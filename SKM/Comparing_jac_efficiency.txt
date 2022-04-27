@@ -1,0 +1,69 @@
+The code and results used to show that getjac2 is significantly faster especially in the range of interest
+
+SHELL
+>>> from time import time as tt
+>>> from optimal_L import *
+>>> from solve_ivp_dkm_2D_A_var import *
+>>> u30 = read_ic('presets\\u30.txt')
+30.0
+>>> u50 = read_ic('presets\\u8.txt')
+50.0
+>>> u100 = read_ic('presets\\u17.txt')
+100.0
+>>> u150 = read_ic('presets\\u27.txt')
+150.0
+>>> al ,bl = [30,50,100,150] , [u30, u50, u100, u150]
+>>> for a in range(4):
+	for b in range(3):
+		n  = al[a]**2
+		z  = np.concatenate((bl[a],np.ones(al[a]**2)*0.2))
+		L  = optimal_L(al[a])
+		ti = tt()
+		q  = getjac(n,z,0.45,L)
+		ta = tt() - ti
+		r  = getjac2(n,z,0.45,L)
+		tb = tt() - ta - ti
+		print('points ',al[a],'   times run : ',b, ' getjac time :',round(ta,5),' getjac2 time :',round(tb,5))
+	for b in range(3):
+		n  = al[a]**2
+		z  = np.concatenate((bl[a],np.ones(al[a]**2)*0.2))
+		L  = optimal_L(al[a])
+		ti = tt()
+		q  = getjac2(n,z,0.45,L)
+		tb = tt() - ti
+		r  = getjac(n,z,0.45,L)
+		ta = tt() - tb - ti
+		print('points ',al[a],'   times run : ',3+b, ' getjac time :',round(ta,5),' getjac2 time :',round(tb,5))
+
+NOTES:
+•To ensure no bias from the ordering switched order of get jac halfway 
+•Below NA is a result of a memory error where the matrix was too large to be stored so could not be calculated
+•In the most relevant cases (n=50) we see an improvement of ~100x speed
+•Even in small scale cases proves to be ~20x speed
+
+RESULTS
+
+points  30    times run :  0  getjac time : 0.0927  getjac2 time : 0.00561
+points  30    times run :  1  getjac time : 0.0931  getjac2 time : 0.00452
+points  30    times run :  2  getjac time : 0.0948  getjac2 time : 0.00299
+points  30    times run :  3  getjac time : 0.0888  getjac2 time : 0.00300
+points  30    times run :  4  getjac time : 0.0883  getjac2 time : 0.00468
+points  30    times run :  5  getjac time : 0.0956  getjac2 time : 0.00299
+points  50    times run :  0  getjac time : 0.7094  getjac2 time : 0.00491
+points  50    times run :  1  getjac time : 0.6868  getjac2 time : 0.00600
+points  50    times run :  2  getjac time : 0.8285  getjac2 time : 0.00600
+points  50    times run :  3  getjac time : 0.8059  getjac2 time : 0.00600
+points  50    times run :  4  getjac time : 0.8233  getjac2 time : 0.00621
+points  50    times run :  5  getjac time : 0.8367  getjac2 time : 0.00600
+points  100   times run :  0  getjac time : 60.807  getjac2 time : 0.07533
+points  100   times run :  1  getjac time : 38.191  getjac2 time : 0.06501
+points  100   times run :  2  getjac time : 40.082  getjac2 time : 0.06953
+points  100   times run :  3  getjac time : 30.246  getjac2 time : 0.01944
+points  100   times run :  4  getjac time : 29.107  getjac2 time : 0.02900
+points  100   times run :  5  getjac time : 26.419  getjac2 time : 0.03800
+points  150   times run :  0  getjac time : NA      getjac2 time : 0.03133
+points  150   times run :  0  getjac time : NA      getjac2 time : 0.02300
+points  150   times run :  0  getjac time : NA      getjac2 time : 0.02402
+points  150   times run :  0  getjac time : NA      getjac2 time : 0.02000
+points  150   times run :  0  getjac time : NA      getjac2 time : 0.02932
+points  150   times run :  0  getjac time : NA      getjac2 time : 0.02043
