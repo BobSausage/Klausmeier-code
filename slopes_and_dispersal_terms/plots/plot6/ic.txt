@@ -1,0 +1,11 @@
+>>> q = solve(50,tmax =100,d=0,e=2)
+>>> q.z0 = np.concatenate((np.ones(2500)*0.53,read_ic('..\\presets\\u8.txt')))
+50.0
+>>> q.solve2d('RK23')
+time taken = 0.9840617179870605
+>>> q.save = 1
+>>> q.speed = 1
+>>> for a in range(11):
+	q.visualise(a,loc = 'plots\\plot6')
+
+	
