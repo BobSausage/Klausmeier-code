@@ -19,7 +19,6 @@ class solve:
 t is the number of time poitns,
 A&B are the parameneters defined in the eqn'''
         self.n = n
-        self.A = A
         self.B = 0.45
         self.t = np.linspace(0,tmax,t)
         self.tr = (0,tmax)  ##range of t vals (needed for solve_ivp arg)
