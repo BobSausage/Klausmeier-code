@@ -12,3 +12,9 @@ This folder contains files relating to the spatial models under constant rainfal
 
 ## Other 
 This folder contains anything which was not actually used in the final project, although these were not used they provided the basis for all the final code.
+
+## gifs
+This folder contains gifs of Figures in my project report. 
+
+## ics
+This folder contains plain text files of the code required to generate some of the figures. 

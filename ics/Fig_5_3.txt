@@ -1,0 +1,13 @@
+>>> b = solve(50,41,tmax=150)
+>>> b.z0 = np.concatenate((0.9*read_ic('presets\\u8.txt'),0.9*read_ic('presets\\u8b.txt')))
+50.0
+50.0
+>>> b.solve2d('RK23')
+time taken = 0.22766780853271484
+>>> b.save = 1
+>>> b.speed = 1
+>>> for a in range(41):
+	b.visualise(a,loc = 'gifs\\Fig_5_3')
+
+	
+

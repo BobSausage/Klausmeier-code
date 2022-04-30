@@ -1,0 +1,11 @@
+>>> b = solve(50,81,tmax=800,d=300,e=0)
+>>> b.z0 = np.concatenate((read_ic('presets\\u8c.txt'), np.ones(2500)*0.2))
+50.0
+>>> b.custom_L_1(1,0)
+>>> b.solve2d('RK23')
+time taken = 82.51734685897827
+>>> b.save = 1
+>>> b.speed = 1
+>>> for a in range(81):
+	b.visualise(a,loc = 'plots\\5_2_4\\2')
+

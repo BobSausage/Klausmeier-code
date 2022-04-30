@@ -1,0 +1,13 @@
+>>> bd = solve(50,21,tmax=200,q=4,r=3.42,d=0,e=10)
+>>> bd.z0 = np.concatenate((read_ic('presets\\u8.txt'),np.ones(2500)*0.2))
+50.0
+>>> bd.solve2d(2,'RK23')
+effective A=1.1775602518288153
+time taken = 162.1275336742401
+
+>>> bd.save=1
+>>> bd.speed=1
+>>> for a in range(21):
+	bd.visualise(a,loc = 'plots\\6_2_1\\rf2_flat_e10')
+
+	

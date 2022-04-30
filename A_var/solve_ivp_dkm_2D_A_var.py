@@ -23,7 +23,7 @@ A&B are the parameneters defined in the eqn'''
         self.tr = (tmin,tmax) 
         self.zsols = np.array([])
         self.z0 = np.array([]) #no standard i.c.s given
-        self.L = optimal_L(n)
+        self.L = optimal_L_2(n)
         self.save = 0  # decides whether the plot is saved or not
         self.speed = 0 # 1 = plot without showing to allow quick creation of images
         self.d = d   # multiplier of plant dispersal = 1/h**2

@@ -1,0 +1,15 @@
+>>> be= solve(50,41,tmax=400,d=182.5,e=0)
+>>> be.z0 = np.concatenate((read_ic('presets\\u8.txt'),np.ones(2500)*0.2))
+50.0
+>>> be.custom_L_1(1,0)
+>>> be.z0 = np.concatenate((read_ic('presets\\u8c.txt'),np.ones(2500)*0.2))
+50.0
+>>> be.solve2d(1,'RK23')
+effective A=1.1775575999133179
+time taken = 328.9959964752197
+>>> be.save=1
+>>> be.speed=1
+>>> for a in range(41):
+	be.visualise(a,loc='plots\\6_2_1\\rf1_sloped')
+
+	

@@ -16,6 +16,7 @@ def get_A2(t):
     return Am+ (k1*(1 + np.tanh((Q*np.sin(0.5*np.pi*t)) -R))) + (k2*(1 + np.tanh((Q*np.sin((0.5*np.pi*t)+(np.pi))) -R)))
 
 
+
 ### this model is used for the contours and arrows
 def model(x, t=0,a=1.75,b=0.45):#a = 1.1776,b = 0.45):
     '''non-spatial klausmeier'''
@@ -125,7 +126,7 @@ def special_plot(xrange=(0,4),yrange=(0,2),no_of_evals = num):
     
     plt.show()
 
-def from_wells(xrange=(0,4),yrange=(0,2),no_of_evals = num):
+def from_wells(xrange=(0,4),yrange=(0,2),a = 1.1776,no_of_evals = num):
     
     #opens saved figure
 ##    im = imread('wells.png')
@@ -142,7 +143,7 @@ def from_wells(xrange=(0,4),yrange=(0,2),no_of_evals = num):
     dfmat = np.zeros((25,25, 2))
     for nx in range(25):
         for ny in range(25):
-            df = model([grid[0][nx,ny], grid[1][nx,ny]])
+            df = model([grid[0][nx,ny], grid[1][nx,ny]],a=a)
             dfmat[nx, ny, 0] = 0.0000005*df[0]
             dfmat[nx, ny, 1] = 0.0000005*df[1]
 
@@ -154,7 +155,7 @@ def from_wells(xrange=(0,4),yrange=(0,2),no_of_evals = num):
     dfmat2 = np.zeros((200,200, 2))
     for nx in range(200):
         for ny in range(200):
-            df = model([grid2[0][nx,ny], grid2[1][nx,ny]])
+            df = model([grid2[0][nx,ny], grid2[1][nx,ny]],a=a)
             dfmat2[nx, ny, 0] = df[0]
             dfmat2[nx, ny, 1] = df[1]
     
@@ -173,7 +174,7 @@ def from_wells(xrange=(0,4),yrange=(0,2),no_of_evals = num):
     plt.xticks(fontsize = 15)
     plt.yticks(fontsize = 15)
     plt.margins(0)
-    plt.savefig('plots\\contours_aft_avg.png')
+    plt.savefig('..\\gifs\\plots\\varying_A_contours\\a_'+str(a)+'.png')
     
     plt.show()
 
